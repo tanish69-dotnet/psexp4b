@@ -1,5 +1,9 @@
 const API_URL = '/students';
 
+// LocalStorage Fallback for GitHub Pages
+const IS_GH_PAGES = window.location.hostname.includes('github.io');
+let localDatabase = JSON.parse(localStorage.getItem('neural_ledger_v4')) || [];
+
 // State
 let isEditing = false;
 let currentEditId = null;
@@ -119,6 +123,14 @@ function terminalLog(msg) {
 
 async function fetchStudents() {
     terminalLog('Initiating node synchronization');
+    
+    if (IS_GH_PAGES) {
+        terminalLog('GH-PAGES_DETECTED: Using localized storage');
+        renderNetwork(localDatabase);
+        terminalLog('Node synchronization successful (LOCAL)');
+        return;
+    }
+
     try {
         const res = await fetch(API_URL);
         const data = await res.json();
@@ -127,7 +139,15 @@ async function fetchStudents() {
     } catch (err) {
         console.error(err);
         sysLog('Network transmission failed', true);
+        
+        // Final fallback if Express fails on other hosts
+        terminalLog('API_FAIL: Falling back to local buffer');
+        renderNetwork(localDatabase);
     }
+}
+
+function saveLocal() {
+    localStorage.setItem('neural_ledger_v4', JSON.stringify(localDatabase));
 }
 
 function renderNetwork(students) {
@@ -176,6 +196,24 @@ form.addEventListener('submit', async (e) => {
         Year: document.getElementById('year').value
     };
 
+    if (IS_GH_PAGES) {
+        if (isEditing) {
+            const idx = localDatabase.findIndex(s => s.ID === currentEditId);
+            if (idx !== -1) {
+                localDatabase[idx] = { ...localDatabase[idx], ...data };
+                sysLog('Local node reconfigured');
+            }
+        } else {
+            const newNode = { ...data, ID: Date.now() };
+            localDatabase.push(newNode);
+            sysLog('Local node instantiated');
+        }
+        saveLocal();
+        closeModal();
+        renderNetwork(localDatabase);
+        return;
+    }
+
     try {
         if(isEditing) {
             await fetch(`${API_URL}/${currentEditId}`, {
@@ -197,6 +235,15 @@ form.addEventListener('submit', async (e) => {
 
 window.purgeNode = async (id) => {
     if(!confirm('AUTHORIZATION REQUIRED: Permanently purge this node?')) return;
+    
+    if (IS_GH_PAGES) {
+        localDatabase = localDatabase.filter(s => s.ID !== id);
+        saveLocal();
+        renderNetwork(localDatabase);
+        sysLog('Local node eradicated.', true);
+        return;
+    }
+
     try {
         await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
         sysLog('Node eradicated from registry.', true);
