@@ -1,0 +1,391 @@
+:root {
+    --bg-main: #b8ccbf; /* Pale green from reference image */
+    --card-bg: #fffdf5;
+    --accent-yellow: #f8cc46;
+    --accent-pink: #f4b4c4;
+    --accent-blue: #a3dafb;
+    --text-main: #1a1a1a;
+    --border-main: #1a1a1a;
+    --shadow-main: #1a1a1a;
+    
+    --ease-neo: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Space Mono', monospace;
+    cursor: none !important;
+}
+
+body {
+    background-color: var(--bg-main); height: 100vh;
+    color: var(--text-main); overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ================= Cursor Engine ================= */
+.cursor-dot {
+    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+    width: 12px; height: 12px; background: #000; 
+    z-index: 99999; pointer-events: none;
+    transition: transform 0.1s linear, width 0.3s, height 0.3s, border-radius 0.3s;
+}
+.cursor-hover .cursor-dot { 
+    width: 30px; height: 30px; 
+    background: transparent;
+    border: 3px solid #000;
+}
+
+/* ================= Preloader ================= */
+.page-loader {
+    position: fixed; inset: 0; background: var(--bg-deep); z-index: 10000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    transition: opacity 0.8s var(--ease-cyber), visibility 0.8s;
+}
+.page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.cyber-spinner {
+    width: 60px; height: 60px; position: relative;
+    border: 4px solid var(--border-main); border-top-color: var(--accent-yellow);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-bottom: 30px;
+}
+.loader-text { font-size: 0.9rem; letter-spacing: 2px; color: var(--text-main); font-weight: 700; text-transform: uppercase;}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* ================= Parallax Environment ================= */
+.holographic-bg {
+    position: fixed; inset: 0; z-index: -1;
+    background-color: var(--bg-main);
+    background-image: radial-gradient(var(--border-main) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.2;
+}
+
+/* ================= App Shell ================= */
+.app-shell {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: #fff;
+    border-right: 4px solid #000;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 25px;
+    z-index: 150;
+}
+
+.sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 60px;
+}
+
+.side-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.side-nav li {
+    padding: 15px 20px;
+    font-weight: 800;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 3px solid transparent;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.side-nav li.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.side-nav li:not(.active):hover {
+    background: var(--accent-pink);
+    border-color: #000;
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #000;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.status-badge {
+    padding: 10px;
+    border: 3px solid #000;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 3px 3px 0 #000;
+}
+
+.pulse {
+    width: 8px; height: 8px; background: #00ff00; border-radius: 50%;
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.4; } 100% { transform: scale(1); opacity: 1; } }
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ================= Neobrutalist Nav ================= */
+.glass-pill-nav {
+    height: 100px;
+    background: var(--bg-main);
+    border-bottom: 4px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 100;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 3px solid #000;
+    padding: 10px 15px;
+    width: 400px;
+    gap: 12px;
+    box-shadow: 4px 4px 0 #000;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-weight: 700;
+    width: 100%;
+}
+
+.nav-controls { display: flex; align-items: center; gap: 20px; }
+.stats { font-size: 0.9rem; font-weight: 700; color: var(--text-main); background: var(--accent-pink); padding: 8px 15px; border: 3px solid #000; box-shadow: 4px 4px 0 #000; }
+
+.add-record-btn {
+    background: var(--accent-blue); border: 3px solid #000; color: #000;
+    padding: 12px 24px; font-weight: 800; font-size: 0.9rem;
+    box-shadow: 4px 4px 0 #000;
+}
+
+/* ================= Spatial Canvas (Main) ================= */
+.spatial-canvas {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.canvas-header {
+    margin-bottom: 40px;
+}
+
+.canvas-header h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.spatial-canvas section {
+    min-height: 500px;
+}
+
+.section-divider {
+    border: none;
+    height: 4px;
+    background: #000;
+    margin: 60px 0;
+}
+
+/* Log Terminal */
+.log-terminal {
+    background: #000;
+    color: #00ff00;
+    padding: 30px;
+    border: 4px solid #000;
+    box-shadow: 8px 8px 0 var(--accent-pink);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+}
+
+.log-line { margin-bottom: 10px; }
+.log-line span { color: var(--accent-yellow); }
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.stat-card {
+    background: #fff;
+    border: 4px solid #000;
+    padding: 30px;
+    box-shadow: 6px 6px 0 var(--accent-blue);
+    text-align: center;
+}
+
+.stat-card h3 { font-size: 0.8rem; opacity: 0.6; margin-bottom: 15px; }
+.stat-card p { font-size: 2.5rem; font-weight: 900; }
+
+/* Scroll Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Data Grid replacing basic rows */
+.data-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px; align-items: start;
+}
+
+/* Neobrutalist Cards */
+.data-chip {
+    background: var(--card-bg);
+    border: 3px solid var(--border-main);
+    padding: 25px; position: relative;
+    box-shadow: 6px 6px 0 var(--shadow-main);
+    transition: transform 0.2s;
+}
+.data-chip:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0 var(--shadow-main);
+}
+
+.chip-id {
+    font-size: 0.75rem; color: var(--text-main); font-weight: 800;
+    margin-bottom: 15px; display: inline-block; background: var(--accent-yellow);
+    padding: 4px 10px; border: 2px solid var(--border-main);
+}
+.chip-name { font-size: 1.4rem; font-weight: 800; margin-bottom: 20px; color: var(--text-main); }
+ 
+.chip-metrics { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+.metric { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-main); font-weight: 700; }
+.metric svg { color: var(--text-main); stroke-width: 3; }
+ 
+.chip-actions { display: flex; gap: 15px; }
+.chip-btn {
+    flex: 1; background: #fff; border: 3px solid var(--border-main); padding: 8px;
+    color: var(--text-main); font-size: 0.8rem; font-weight: 800;
+    box-shadow: 3px 3px 0 var(--shadow-main);
+    display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.1s;
+}
+.chip-btn.edit:hover { background: var(--accent-blue); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--shadow-main); }
+.chip-btn.del:hover { background: var(--accent-pink); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--shadow-main); }
+
+.empty-state {
+    grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 40vh; text-align: center; color: var(--text-dim); letter-spacing: 2px; font-size: 0.9rem;
+}
+
+/* ================= Modal Holographic Form ================= */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4);
+    z-index: 2000; display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: 0.3s var(--ease-neo);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+ 
+.modal-plate {
+    width: 90%; max-width: 550px; background: var(--card-bg);
+    border: 4px solid var(--border-main);
+    padding: 50px 40px; box-shadow: 15px 15px 0 var(--shadow-main);
+    transform: translateY(20px); transition: 0.4s var(--ease-neo);
+    position: relative;
+}
+
+/* Corner Decorations */
+.corner-tl, .corner-tr, .corner-bl, .corner-br {
+    position: absolute; width: 15px; height: 15px; border: 4px solid #000; z-index: 5;
+}
+.corner-tl { top: 15px; left: 15px; border-right: 0; border-bottom: 0; }
+.corner-tr { top: 15px; right: 15px; border-left: 0; border-bottom: 0; }
+.corner-bl { bottom: 15px; left: 15px; border-right: 0; border-top: 0; }
+.corner-br { bottom: 15px; right: 15px; border-left: 0; border-top: 0; }
+
+.modal-overlay.active .modal-plate { transform: translateY(0); }
+ 
+.close-modal {
+    position: absolute; top: 25px; right: 25px; background: transparent; border: none; color: var(--text-main);
+    transition: 0.2s; padding: 5px; cursor: pointer; z-index: 10;
+}
+.close-modal:hover { transform: rotate(90deg) scale(1.1); color: var(--accent-pink); }
+ 
+.modal-header { margin-bottom: 35px; }
+.modal-line { width: 50px; height: 8px; background: #000; margin-bottom: 15px; }
+.modal-header h2 { font-size: 2.5rem; font-weight: 900; color: var(--text-main); text-transform: uppercase; line-height: 1;}
+.modal-header .subtitle { font-size: 0.8rem; font-weight: 800; color: var(--text-main); opacity: 0.4; letter-spacing: 2px; }
+ 
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+ 
+.cyber-input-group { position: relative; margin-bottom: 30px; }
+.cyber-input-group label {
+    display: block; font-weight: 900; font-size: 0.75rem; margin-bottom: 10px; color: var(--text-main); letter-spacing: 1px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute; left: 15px; color: #000; pointer-events: none;
+}
+ 
+.cyber-input-group input, .cyber-input-group select {
+    width: 100%; background: #fff; border: 3px solid var(--border-main); padding: 15px 15px 15px 45px;
+    color: var(--text-main); font-size: 1rem; font-weight: 700; outline: none; transition: 0.2s;
+    box-shadow: 4px 4px 0 var(--shadow-main);
+    appearance: none; -webkit-appearance: none;
+}
+.cyber-input-group input:focus, .cyber-input-group select:focus {
+    background: var(--card-bg);
+    transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--shadow-main);
+}
+
+.select-icon { position: absolute; right: 15px; color: var(--text-main); pointer-events: none; stroke-width: 3;}
+ 
+.cyber-btn.primary { 
+    background: var(--accent-yellow); border: 3px solid var(--border-main); color: var(--text-main); 
+    font-weight: 900; box-shadow: 6px 6px 0 var(--shadow-main); padding: 20px; width: 100%; cursor: pointer;
+    font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;
+}
+.cyber-btn.primary:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--shadow-main); background: var(--accent-blue); }
+.cyber-btn.primary:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0 var(--shadow-main); }
+
+/* ================= High-Tech HUD Toast ================= */
+.toast-hud {
+    position: fixed; bottom: 40px; right: 40px; background: var(--card-bg);
+    border: 3px solid var(--border-main); padding: 15px 25px;
+    display: flex; align-items: center; gap: 15px; color: var(--text-main); font-size: 0.9rem;
+    font-weight: 800; transform: translateY(150%); opacity: 0; transition: 0.3s var(--ease-neo); z-index: 9999;
+    box-shadow: 6px 6px 0 var(--shadow-main);
+}
+.toast-hud.show { transform: translateY(0); opacity: 1; }
+.toast-edge { width: 8px; height: 100%; position: absolute; left: 0; top: 0; background: var(--accent-yellow); border-right: 3px solid var(--border-main); }
+.toast-sys { color: var(--text-main); text-transform: uppercase; }

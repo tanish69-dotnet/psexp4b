@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURAL_LEDGER | V4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="page-loader" id="page-loader">
+        <div class="cyber-spinner"></div>
+        <div class="loader-text">ESTABLISHING CONNECTION...</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <!-- Parallax Space -->
+    <div class="holographic-bg" id="holographic-bg"></div>
+    
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="cyber-core"></div>
+                <h1>NEURAL</h1>
+            </div>
+            
+            <ul class="side-nav">
+                <li class="active hover-target" data-section="nodes-section"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Nodes</li>
+                <li class="hover-target" data-section="logs-section"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> Logs</li>
+                <li class="hover-target" data-section="stats-section"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> Stats</li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="status-badge"><span class="pulse"></span> ONLINE</div>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <!-- Floating Top Nav -->
+            <nav class="glass-pill-nav">
+                <div class="search-bar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Search data nodes..." class="hover-target">
+                </div>
+                <div class="nav-controls">
+                    <div class="stats" id="stats-counter">NODES: 0</div>
+                    <button class="add-record-btn hover-target" id="open-modal-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>NEW ENTRY</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Spatial Grid -->
+            <main class="spatial-canvas">
+                <section id="nodes-section">
+                    <div class="canvas-header">
+                        <h2>Active Data Nodes</h2>
+                        <p>SYSTEM_REGISTRY_V4.0</p>
+                    </div>
+                    <div class="data-grid" id="records-container">
+                        <!-- Data Chips (Cards) will render here -->
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <section id="logs-section">
+                    <div class="canvas-header">
+                        <h2>System Logs</h2>
+                        <p>REAL-TIME_EVENT_STREAM</p>
+                    </div>
+                    <div class="log-terminal" id="log-terminal">
+                        <!-- Dynamic logs will append here -->
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <section id="stats-section">
+                    <div class="canvas-header">
+                        <h2>Global Statistics</h2>
+                        <p>ANALYTICS_DASHBOARD</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>UPTIME</h3>
+                            <p>99.9%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>LOAD</h3>
+                            <p>12%</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>LATENCY</h3>
+                            <p>24ms</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Holographic Form Modal -->
+    <div class="modal-overlay" id="form-modal">
+        <div class="modal-plate">
+            <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+            
+            <button class="close-modal hover-target" id="close-modal-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            
+            <div class="modal-header">
+                <div class="modal-line"></div>
+                <h2 id="view-form-title">ADD_NODE</h2>
+                <p class="subtitle">INPUT_STRUCTURAL_DATA_V4</p>
+            </div>
+
+            <form id="student-form">
+                <div class="cyber-input-group">
+                    <label for="name">IDENTITY_TICKET (NAME)</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <input type="text" id="name" placeholder="Enter identity..." required autocomplete="off" class="hover-target">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="cyber-input-group">
+                        <label for="branch">SECTOR (BRANCH)</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                            <select id="branch" required class="hover-target">
+                                <option value="" disabled selected>Select Sector</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                            </select>
+                            <svg class="select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                    
+                    <div class="cyber-input-group">
+                        <label for="year">TIER (YEAR)</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            <select id="year" required class="hover-target">
+                                <option value="" disabled selected>Select Tier</option>
+                                <option value="First Year">Level 1 (First)</option>
+                                <option value="Second Year">Level 2 (Second)</option>
+                                <option value="Third Year">Level 3 (Third)</option>
+                                <option value="Fourth Year">Level 4 (Fourth)</option>
+                            </select>
+                            <svg class="select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="cyber-btn primary hover-target" id="submit-btn">
+                        <span>ESTABLISH LINK</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- High-Tech Toast -->
+    <div id="toast" class="toast-hud">
+        <div class="toast-edge"></div>
+        <div class="toast-content">
+            <span class="toast-sys">SYS:</span>
+            <span id="toast-message">Data appended cleanly.</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
